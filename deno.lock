@@ -1,0 +1,27 @@
+{
+  "version": "3",
+  "packages": {
+    "specifiers": {
+      "jsr:@valibot/valibot@^0.35.0": "jsr:@valibot/valibot@0.35.0",
+      "npm:drizzle-orm@^0.31.2": "npm:drizzle-orm@0.31.2"
+    },
+    "jsr": {
+      "@valibot/valibot@0.35.0": {
+        "integrity": "fe0f153a99122cc1f20dc9f1d20368a5a36625d5e5e07421bd15a289ad2ffac1"
+      }
+    },
+    "npm": {
+      "drizzle-orm@0.31.2": {
+        "integrity": "sha512-QnenevbnnAzmbNzQwbhklvIYrDE8YER8K7kSrAWQSV1YvFCdSQPzj+jzqRdTSsV2cDqSpQ0NXGyL1G9I43LDLg==",
+        "dependencies": {}
+      }
+    }
+  },
+  "remote": {},
+  "workspace": {
+    "dependencies": [
+      "jsr:@valibot/valibot@^0.35.0",
+      "npm:drizzle-orm@^0.31.2"
+    ]
+  }
+}
