@@ -8,11 +8,9 @@
       "jsr:@std/internal@^1.0.0": "jsr:@std/internal@1.0.0",
       "jsr:@std/path": "jsr:@std/path@0.225.2",
       "jsr:@valibot/valibot@^0.35.0": "jsr:@valibot/valibot@0.35.0",
-      "npm:@trpc/client@^11.0.0-rc.413": "npm:@trpc/client@11.0.0-rc.413_@trpc+server@11.0.0-rc.413",
       "npm:@types/node": "npm:@types/node@18.16.19",
       "npm:drizzle-kit@^0.22.8": "npm:drizzle-kit@0.22.8_esbuild@0.19.12",
       "npm:drizzle-orm@^0.31.2": "npm:drizzle-orm@0.31.2",
-      "npm:msgpackr@^1.10.2": "npm:msgpackr@1.10.2",
       "npm:postgres@^3.4.4": "npm:postgres@3.4.4"
     },
     "jsr": {
@@ -233,40 +231,6 @@
         "integrity": "sha512-T1QyPSDCyMXaO3pzBkF96E8xMkiRYbUEZADd29SyPGabqxMViNoii+NcK7eWJAEoU6RZyEm5lVSIjTmcdoB9HA==",
         "dependencies": {}
       },
-      "@msgpackr-extract/msgpackr-extract-darwin-arm64@3.0.3": {
-        "integrity": "sha512-QZHtlVgbAdy2zAqNA9Gu1UpIuI8Xvsd1v8ic6B2pZmeFnFcMWiPLfWXh7TVw4eGEZ/C9TH281KwhVoeQUKbyjw==",
-        "dependencies": {}
-      },
-      "@msgpackr-extract/msgpackr-extract-darwin-x64@3.0.3": {
-        "integrity": "sha512-mdzd3AVzYKuUmiWOQ8GNhl64/IoFGol569zNRdkLReh6LRLHOXxU4U8eq0JwaD8iFHdVGqSy4IjFL4reoWCDFw==",
-        "dependencies": {}
-      },
-      "@msgpackr-extract/msgpackr-extract-linux-arm64@3.0.3": {
-        "integrity": "sha512-YxQL+ax0XqBJDZiKimS2XQaf+2wDGVa1enVRGzEvLLVFeqa5kx2bWbtcSXgsxjQB7nRqqIGFIcLteF/sHeVtQg==",
-        "dependencies": {}
-      },
-      "@msgpackr-extract/msgpackr-extract-linux-arm@3.0.3": {
-        "integrity": "sha512-fg0uy/dG/nZEXfYilKoRe7yALaNmHoYeIoJuJ7KJ+YyU2bvY8vPv27f7UKhGRpY6euFYqEVhxCFZgAUNQBM3nw==",
-        "dependencies": {}
-      },
-      "@msgpackr-extract/msgpackr-extract-linux-x64@3.0.3": {
-        "integrity": "sha512-cvwNfbP07pKUfq1uH+S6KJ7dT9K8WOE4ZiAcsrSes+UY55E/0jLYc+vq+DO7jlmqRb5zAggExKm0H7O/CBaesg==",
-        "dependencies": {}
-      },
-      "@msgpackr-extract/msgpackr-extract-win32-x64@3.0.3": {
-        "integrity": "sha512-x0fWaQtYp4E6sktbsdAqnehxDgEc/VwM7uLsRCYWaiGu0ykYdZPiS8zCWdnjHwyiumousxfBm4SO31eXqwEZhQ==",
-        "dependencies": {}
-      },
-      "@trpc/client@11.0.0-rc.413_@trpc+server@11.0.0-rc.413": {
-        "integrity": "sha512-+5WRP5gK2OLHWSCkNDkrEeO0EmLScytUPU0jhp3gdKrpyx1AkVqCXUDioofkNXCmQd/WNUrWF35tkVfY3kYwlQ==",
-        "dependencies": {
-          "@trpc/server": "@trpc/server@11.0.0-rc.413"
-        }
-      },
-      "@trpc/server@11.0.0-rc.413": {
-        "integrity": "sha512-fQl7/69pSfk+7+Emm5eOCoAW6f2anxKV/3mUObQfFe0NLH0d4XwGyJuYV+sK7NBy1oit0Qwg12B0EXdsIryDuw==",
-        "dependencies": {}
-      },
       "@types/node@18.16.19": {
         "integrity": "sha512-IXl7o+R9iti9eBW4Wg2hx1xQDig183jj7YLn8F7udNceyfkbn1ZxmzZXuak20gR40D7pIkIY1kYGx5VIGbaHKA==",
         "dependencies": {}
@@ -280,10 +244,6 @@
         "dependencies": {
           "ms": "ms@2.1.2"
         }
-      },
-      "detect-libc@2.0.3": {
-        "integrity": "sha512-bwy0MGW55bG41VqxxypOsdSdGqLwXPI/focwgTYCFMbdUiBAxLg9CFzG08sz2aqzknwiX7Hkl0bQENjg8iLByw==",
-        "dependencies": {}
       },
       "drizzle-kit@0.22.8_esbuild@0.19.12": {
         "integrity": "sha512-VjI4wsJjk3hSqHSa3TwBf+uvH6M6pRHyxyoVbt935GUzP9tUR/BRZ+MhEJNgryqbzN2Za1KP0eJMTgKEPsalYQ==",
@@ -369,30 +329,6 @@
         "integrity": "sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==",
         "dependencies": {}
       },
-      "msgpackr-extract@3.0.3": {
-        "integrity": "sha512-P0efT1C9jIdVRefqjzOQ9Xml57zpOXnIuS+csaB4MdZbTdmGDLo8XhzBG1N7aO11gKDDkJvBLULeFTo46wwreA==",
-        "dependencies": {
-          "@msgpackr-extract/msgpackr-extract-darwin-arm64": "@msgpackr-extract/msgpackr-extract-darwin-arm64@3.0.3",
-          "@msgpackr-extract/msgpackr-extract-darwin-x64": "@msgpackr-extract/msgpackr-extract-darwin-x64@3.0.3",
-          "@msgpackr-extract/msgpackr-extract-linux-arm": "@msgpackr-extract/msgpackr-extract-linux-arm@3.0.3",
-          "@msgpackr-extract/msgpackr-extract-linux-arm64": "@msgpackr-extract/msgpackr-extract-linux-arm64@3.0.3",
-          "@msgpackr-extract/msgpackr-extract-linux-x64": "@msgpackr-extract/msgpackr-extract-linux-x64@3.0.3",
-          "@msgpackr-extract/msgpackr-extract-win32-x64": "@msgpackr-extract/msgpackr-extract-win32-x64@3.0.3",
-          "node-gyp-build-optional-packages": "node-gyp-build-optional-packages@5.2.2"
-        }
-      },
-      "msgpackr@1.10.2": {
-        "integrity": "sha512-L60rsPynBvNE+8BWipKKZ9jHcSGbtyJYIwjRq0VrIvQ08cRjntGXJYW/tmciZ2IHWIY8WEW32Qa2xbh5+SKBZA==",
-        "dependencies": {
-          "msgpackr-extract": "msgpackr-extract@3.0.3"
-        }
-      },
-      "node-gyp-build-optional-packages@5.2.2": {
-        "integrity": "sha512-s+w+rBWnpTMwSFbaE0UXsRlg7hU4FjekKU4eyAih5T8nJuNZT1nNsskXpxmeqSK9UzkBl6UgRlnKc8hz8IEqOw==",
-        "dependencies": {
-          "detect-libc": "detect-libc@2.0.3"
-        }
-      },
       "postgres@3.4.4": {
         "integrity": "sha512-IbyN+9KslkqcXa8AO9fxpk97PA4pzewvpi2B3Dwy9u4zpV32QicaEdgmF3eSQUzdRk7ttDHQejNgAEr4XoeH4A==",
         "dependencies": {}
@@ -418,11 +354,8 @@
   "workspace": {
     "dependencies": [
       "jsr:@valibot/valibot@^0.35.0",
-      "npm:@trpc/client@^11.0.0-rc.413",
-      "npm:@trpc/server@^11.0.0-rc.413",
       "npm:drizzle-kit@^0.22.8",
       "npm:drizzle-orm@^0.31.2",
-      "npm:msgpackr@^1.10.2",
       "npm:postgres@^3.4.4"
     ]
   }

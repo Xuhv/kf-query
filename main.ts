@@ -34,15 +34,27 @@ export enum IntervalComparator {
     BOTH_INCLUDED,
 }
 
-export type Interval = { start: number; end: number };
+export type Interval<T extends number | Date = number | Date> = { start: T; end: T };
+
+type Comparison_String = { type: "string"; comparator: StringComparator };
+
+type Comparison_Number = { type: "number"; comparator: NumberComparator };
+type Comparison_Enum<T extends v.Enum = v.Enum> = {
+    type: T;
+    comparator: StringComparator.EQUAL | NumberComparator.EQUAL;
+};
+
+type Comparison_Datetime = { type: "datetime"; comparator: DatetimeComparator };
+type Comparison_Array = { type: "array"; itemType: "string" | "number"; comparator: ArrayComparator };
+type Comparison_Interval = { type: "interval"; itemType: "number" | "datetime"; comparator: IntervalComparator };
 
 export type Comparsion<T extends v.Enum = v.Enum> =
-    | { type: "string"; comparator: StringComparator }
-    | { type: "number"; comparator: NumberComparator }
-    | { type: T; comparator: StringComparator.EQUAL | NumberComparator.EQUAL }
-    | { type: "datetime"; comparator: DatetimeComparator }
-    | { type: "array"; comparator: ArrayComparator }
-    | { type: "interval"; comparator: IntervalComparator };
+    | Comparison_String
+    | Comparison_Number
+    | Comparison_Enum<T>
+    | Comparison_Datetime
+    | Comparison_Array
+    | Comparison_Interval;
 
 export type BuilderMeta = { [k: string]: { comparsion: Comparsion; optional?: boolean } };
 
@@ -66,8 +78,14 @@ export type Query<T extends BuilderMeta> = Prettier<
             [k in keyof T]: FieldDataType<T, k> extends "string" ? string
                 : FieldDataType<T, k> extends "number" ? number
                 : FieldDataType<T, k> extends "datetime" ? number
-                : FieldDataType<T, k> extends "array" ? any[]
-                : FieldDataType<T, k> extends "interval" ? Interval
+                : FieldDataType<T, k> extends "array"
+                    ? T[k]["comparsion"] extends (infer T1 extends Comparison_Array)
+                        ? (T1["itemType"] extends "number" ? number : string)[]
+                    : never
+                : FieldDataType<T, k> extends "interval"
+                    ? T[k]["comparsion"] extends (infer T1 extends Comparison_Interval)
+                        ? Interval<T1["itemType"] extends "number" ? number : Date>
+                    : never
                 : FieldDataType<T, k> extends v.Enum ? EnumValue<FieldDataType<T, k>>
                 : never;
         },
@@ -79,12 +97,19 @@ type ValibotEntries<T extends BuilderMeta> = {
     [k in keyof T]: FieldDataType<T, k> extends "string" ? v.StringSchema<undefined>
         : FieldDataType<T, k> extends "number" ? v.NumberSchema<undefined>
         : FieldDataType<T, k> extends "datetime" ? v.NumberSchema<undefined>
-        : FieldDataType<T, k> extends "array" ? v.ArraySchema<v.AnySchema, undefined>
+        : FieldDataType<T, k> extends "array" ? v.ArraySchema<
+                T[k]["comparsion"] extends (infer T1 extends Comparison_Array)
+                    ? T1["itemType"] extends "number" ? v.NumberSchema<undefined> : v.StringSchema<undefined>
+                    : never,
+                undefined
+            >
         : FieldDataType<T, k> extends v.Enum ? v.EnumSchema<FieldDataType<T, k>, undefined>
-        : FieldDataType<T, k> extends "interval" ? v.ObjectSchema<{
-                start: v.NumberSchema<undefined>;
-                end: v.NumberSchema<undefined>;
-            }, undefined>
+        : FieldDataType<T, k> extends "interval"
+            ? T[k]["comparsion"] extends (infer T1 extends Comparison_Interval)
+                ? T1["itemType"] extends "number"
+                    ? v.ObjectSchema<{ start: v.NumberSchema<undefined>; end: v.NumberSchema<undefined> }, undefined>
+                : v.ObjectSchema<{ start: v.DateSchema<undefined>; end: v.DateSchema<undefined> }, undefined>
+            : never
         : never;
 };
 
@@ -118,11 +143,11 @@ export function buildValibotSchema<T extends BuilderMeta>(
         } else if (comparsion.type === "datetime") {
             s = v.number();
         } else if (comparsion.type === "array") {
-            s = v.array(v.any());
+            s = v.array(comparsion.itemType === "number" ? v.number() : v.string());
         } else if (comparsion.type === "interval") {
             s = v.object({
-                start: v.number(),
-                end: v.number(),
+                start: comparsion.itemType === "number" ? v.number() : v.date(),
+                end: comparsion.itemType === "number" ? v.number() : v.date(),
             });
         } else throw new Error("unknown comparsion type");
 

@@ -1,4 +1,4 @@
-import { type BuilderMeta, buildValibotSchema, NumberComparator, type Query, StringComparator } from "./main.ts";
+import { type BuilderMeta, buildValibotSchema, NumberComparator, type Query, StringComparator, ArrayComparator } from "./main.ts";
 import * as v from "@valibot/valibot";
 import { assertThrows } from "jsr:@std/assert";
 
@@ -27,6 +27,14 @@ const meta = {
             type: "number",
             comparator: NumberComparator.EQUAL,
         },
+    },
+    arr: {
+        comparsion: {
+            type: "array",
+            comparator: ArrayComparator.INCLUDED,
+            itemType: "string",
+        },
+        optional: true,
     },
     abc: {
         comparsion: {
