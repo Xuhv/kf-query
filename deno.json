@@ -1,5 +1,5 @@
 {
-  "name": "@kf/drizze-valibot-wrapper",
+  "name": "@kf/query",
   "version": "1.0.0-alpha.1",
   "exports": "./main.ts",
   "publish": {
