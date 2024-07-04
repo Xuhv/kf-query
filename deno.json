@@ -1,14 +1,18 @@
 {
   "name": "@kf/query",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "exports": "./main.ts",
+  "tasks": {
+    "coverage": "rm -rf ./cov_profile/ && deno test --coverage=cov_profile && deno coverage cov_profile && deno coverage cov_profile --html"
+  },
   "publish": {
     "exclude": [
       "demo*",
       "docker-compose*",
       "drizzle*",
       "*.test.ts",
-      "deno.lock"
+      "deno.lock",
+      ".vscode"
     ]
   },
   "fmt": {
@@ -19,6 +23,7 @@
     "@valibot/valibot": "jsr:@valibot/valibot@^0.35.0",
     "drizzle-kit": "npm:drizzle-kit@^0.22.8",
     "drizzle-orm": "npm:drizzle-orm@^0.31.2",
-    "postgres": "npm:postgres@^3.4.4"
+    "postgres": "npm:postgres@^3.4.4",
+    "rfui": "https://deno.land/x/rfui/mod.ts"
   }
 }

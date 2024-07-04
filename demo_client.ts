@@ -1,8 +1,8 @@
-import { meta } from "./demo_server.ts";
-import { Query } from "./main.ts";
+import type { meta } from "./demo_server.ts";
+import type { Query } from "./main.ts";
 import { assert } from "jsr:@std/assert";
 
-type QueryData = Query<typeof meta>; // 用户输入类型
+type QueryData = Query<typeof meta>; // it's same as `v.InferOutput<typeof valibotSchema(meta)>`
 
 Deno.test("1", async () => {
     const res = await fetch("http://127.0.0.1:8000", {
@@ -18,7 +18,7 @@ Deno.test("1", async () => {
 
 Deno.test("2", async () => {
     const res = await fetch("http://127.0.0.1:8000", {
-        body: JSON.stringify({ id: "1", name: "%o%" }), // 错误的类型
+        body: JSON.stringify({ id: "1", name: "%o%" }), // invalid
         method: "POST",
         headers: {
             "Content-Type": "application/json",

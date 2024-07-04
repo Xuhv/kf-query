@@ -1,71 +1,111 @@
-import { type BuilderMeta, buildValibotSchema, NumberComparator, type Query, StringComparator, ArrayComparator } from "./main.ts";
+import { type BuilderMeta, Comparator, type Query, valibotSchema } from "./main.ts";
 import * as v from "@valibot/valibot";
 import { assertThrows } from "jsr:@std/assert";
 
-enum ABC {
-    A,
-    B,
-    C,
-}
+Deno.test("string", () => {
+    const meta = {
+        string: { comparison: { type: "string", comparator: Comparator.EQUAL } },
+    } satisfies BuilderMeta;
+    const schema = valibotSchema(meta);
+    const query: Query<typeof meta> = { string: "a" };
+    v.parse(schema, query);
+    assertThrows(() => v.parse(schema, { string: 1 }));
+});
 
-enum ABC_STRING {
-    A = "A",
-    B = "B",
-    C = "C",
-}
+Deno.test("number", () => {
+    const meta = {
+        number: { comparison: { type: "number", comparator: Comparator.EQUAL } },
+    } satisfies BuilderMeta;
+    const schema = valibotSchema(meta);
+    const query: Query<typeof meta> = { number: 1 };
+    v.parse(schema, query);
+    assertThrows(() => v.parse(schema, { number: "a" }));
+});
 
-const meta = {
-    name: {
-        comparsion: {
-            type: "string",
-            comparator: StringComparator.LIKE,
+Deno.test("enum", () => {
+    enum STRING_ENUM {
+        A = "A",
+        B = "B",
+    }
+    const meta = {
+        enum: { comparison: { type: STRING_ENUM, comparator: Comparator.EQUAL } },
+    } satisfies BuilderMeta;
+    const schema = valibotSchema(meta);
+    const query: Query<typeof meta> = { enum: STRING_ENUM.A };
+    v.parse(schema, query);
+    assertThrows(() => v.parse(schema, { enum: "C" }));
+});
+
+Deno.test("datetime", () => {
+    const meta = {
+        datetime: { comparison: { type: "datetime", comparator: Comparator.EQUAL } },
+    } satisfies BuilderMeta;
+    const schema = valibotSchema(meta);
+    const query: Query<typeof meta> = { datetime: new Date() };
+    v.parse(schema, query);
+    assertThrows(() => v.parse(schema, { datetime: "a" }));
+});
+
+Deno.test("boolean", () => {
+    const meta = {
+        boolean: { comparison: { type: "boolean", comparator: Comparator.EQUAL } },
+    } satisfies BuilderMeta;
+    const schema = valibotSchema(meta);
+    const query: Query<typeof meta> = { boolean: true };
+    v.parse(schema, query);
+    assertThrows(() => v.parse(schema, { boolean: "a" }));
+});
+
+Deno.test("string array", () => {
+    const meta = {
+        array: { comparison: { type: "array", comparator: Comparator.ARRAY_INCLUDED, itemType: "string" } },
+    } satisfies BuilderMeta;
+    const schema = valibotSchema(meta);
+    const query: Query<typeof meta> = { array: ["a"] };
+    v.parse(schema, query);
+    assertThrows(() => v.parse(schema, { array: [1] }));
+});
+
+Deno.test("number array", () => {
+    const meta = {
+        array: { comparison: { type: "array", comparator: Comparator.ARRAY_INCLUDED, itemType: "number" } },
+    } satisfies BuilderMeta;
+    const schema = valibotSchema(meta);
+    const query: Query<typeof meta> = { array: [1] };
+    v.parse(schema, query);
+    assertThrows(() => v.parse(schema, { array: ["a"] }));
+});
+
+Deno.test("number interval", () => {
+    const meta = {
+        interval: {
+            comparison: { type: "interval", comparator: Comparator.INTERVAL_BOTH_INCLUDED, itemType: "number" },
         },
-        optional: true,
-    },
-    age: {
-        comparsion: {
-            type: "number",
-            comparator: NumberComparator.EQUAL,
-        },
-    },
-    arr: {
-        comparsion: {
-            type: "array",
-            comparator: ArrayComparator.INCLUDED,
-            itemType: "string",
-        },
-        optional: true,
-    },
-    abc: {
-        comparsion: {
-            type: ABC_STRING,
-            comparator: StringComparator.EQUAL,
-        },
-        optional: true,
-    },
-    abc2: {
-        comparsion: {
-            type: ABC,
-            comparator: NumberComparator.EQUAL,
-        },
-        optional: true,
-    },
-} satisfies BuilderMeta;
+    } satisfies BuilderMeta;
+    const schema = valibotSchema(meta);
+    const query: Query<typeof meta> = { interval: { start: 1, end: 2 } };
+    v.parse(schema, query);
+    assertThrows(() => v.parse(schema, { interval: { start: "a", end: "b" } }));
+});
 
-type VoTypeFromQuery = Query<typeof meta>;
+Deno.test("date interval", () => {
+    const meta = {
+        interval: {
+            comparison: { type: "interval", comparator: Comparator.INTERVAL_BOTH_INCLUDED, itemType: "datetime" },
+        },
+    } satisfies BuilderMeta;
+    const schema = valibotSchema(meta);
+    const query: Query<typeof meta> = { interval: { start: new Date(), end: new Date() } };
+    v.parse(schema, query);
+    assertThrows(() => v.parse(schema, { interval: { start: "a", end: "b" } }));
+});
 
-const x = buildValibotSchema(meta);
-type VoTypeFromValibotSchema = v.InferOutput<typeof x>;
-
-export const t: VoTypeFromQuery extends VoTypeFromValibotSchema
-    ? VoTypeFromValibotSchema extends VoTypeFromQuery ? true : false
-    : false = true;
-
-Deno.test("1", () => {
-    assertThrows(() => v.parse(x, {}));
-    assertThrows(() => v.parse(x, { name: "hello" }));
-    assertThrows(() => v.parse(x, { name: "hello", abc: ABC_STRING.A, abc2: ABC.B }));
-    assertThrows(() => v.parse(x, { name: "hello", abc: ABC.A, abc2: ABC_STRING.B, age: 29 }));
-    v.parse(x, { name: "hello", abc: ABC_STRING.A, abc2: ABC.B, age: 29 });
-    v.parse(x, { age: 29 });
+Deno.test("optional", () => {
+    const meta = {
+        string: { comparison: { type: "string", comparator: Comparator.EQUAL }, optional: true },
+    } satisfies BuilderMeta;
+    const schema = valibotSchema(meta);
+    const query: Query<typeof meta> = { string: "a" };
+    v.parse(schema, query);
+    assertThrows(() => v.parse(schema, { string: 1 }));
 });
