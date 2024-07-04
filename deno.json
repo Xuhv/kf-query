@@ -1,9 +1,24 @@
 {
-  "tasks": {
-    "dev": "deno run --watch main.ts"
+  "name": "@kf/drizze-valibot-wrapper",
+  "version": "1.0.0-alpha.1",
+  "exports": "./main.ts",
+  "publish": {
+    "exclude": [
+      "demo*",
+      "docker-compose*",
+      "drizzle*",
+      "*.test.ts",
+      "deno.lock"
+    ]
   },
+  "fmt": {
+    "lineWidth": 120
+  },
+  "nodeModulesDir": true,
   "imports": {
     "@valibot/valibot": "jsr:@valibot/valibot@^0.35.0",
-    "drizzle-orm": "npm:drizzle-orm@^0.31.2"
+    "drizzle-kit": "npm:drizzle-kit@^0.22.8",
+    "drizzle-orm": "npm:drizzle-orm@^0.31.2",
+    "postgres": "npm:postgres@^3.4.4"
   }
 }
