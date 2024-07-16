@@ -1,6 +1,6 @@
 {
   "name": "@kf/query",
-  "version": "1.0.0-alpha.2",
+  "version": "1.0.0-alpha.3",
   "exports": "./main.ts",
   "tasks": {
     "coverage": "rm -rf ./cov_profile/ && deno test --coverage=cov_profile && deno coverage cov_profile && deno coverage cov_profile --html"

@@ -4,7 +4,7 @@ import { assert } from "jsr:@std/assert";
 
 type QueryData = Query<typeof meta>; // it's same as `v.InferOutput<typeof valibotSchema(meta)>`
 
-Deno.test("1", async () => {
+Deno.test("valid query data", async () => {
     const res = await fetch("http://127.0.0.1:8000", {
         body: JSON.stringify({ id: 1, name: "%o%" } satisfies QueryData),
         method: "POST",
@@ -16,7 +16,7 @@ Deno.test("1", async () => {
     console.log(await res.json());
 })
 
-Deno.test("2", async () => {
+Deno.test("invalid query data", async () => {
     const res = await fetch("http://127.0.0.1:8000", {
         body: JSON.stringify({ id: "1", name: "%o%" }), // invalid
         method: "POST",
@@ -25,5 +25,17 @@ Deno.test("2", async () => {
         },
     });
     assert(res.status === 400);
+    console.log(await res.json());
+})
+
+Deno.test("all field unset", async () => {
+    const res = await fetch("http://127.0.0.1:8000", {
+        body: JSON.stringify({}),
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    assert(res.status === 200);
     console.log(await res.json());
 })

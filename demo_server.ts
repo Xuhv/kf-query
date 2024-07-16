@@ -25,8 +25,8 @@ if ((await db.execute(sql`SELECT COUNT(*) FROM ${schemas.users}`))[0].count === 
 }
 
 export const meta = { // the metadata to build valibot schema and db query
-    id: { comparison: { type: "number", comparator: Comparator.GT } },
-    name: { comparison: { type: "string", comparator: Comparator.LIKE } },
+    id: { comparison: { type: "number", comparator: Comparator.GT }, optional: true },
+    name: { comparison: { type: "string", comparator: Comparator.LIKE }, optional: true },
 } satisfies BuilderMeta;
 
 const schema = valibotSchema(meta); // valibot schema

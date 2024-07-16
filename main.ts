@@ -115,19 +115,19 @@ export type Query<T extends BuilderMeta> = Prettier<
     ApplyOptional<
         {
             [k in keyof T]: FieldDataType<T, k> extends "string" ? string
-                : FieldDataType<T, k> extends "number" ? number
-                : FieldDataType<T, k> extends "datetime" ? Date
-                : FieldDataType<T, k> extends "boolean" ? boolean
-                : FieldDataType<T, k> extends "array"
-                    ? T[k]["comparison"] extends (infer T1 extends Comparison_Array)
-                        ? (T1["itemType"] extends "number" ? number : string)[]
-                    : never
-                : FieldDataType<T, k> extends "interval"
-                    ? T[k]["comparison"] extends (infer T1 extends Comparison_Interval)
-                        ? Interval<T1["itemType"] extends "number" ? number : Date>
-                    : never
-                : FieldDataType<T, k> extends v.Enum ? EnumValue<FieldDataType<T, k>>
-                : never;
+            : FieldDataType<T, k> extends "number" ? number
+            : FieldDataType<T, k> extends "datetime" ? Date
+            : FieldDataType<T, k> extends "boolean" ? boolean
+            : FieldDataType<T, k> extends "array"
+            ? T[k]["comparison"] extends (infer T1 extends Comparison_Array)
+            ? (T1["itemType"] extends "number" ? number : string)[]
+            : never
+            : FieldDataType<T, k> extends "interval"
+            ? T[k]["comparison"] extends (infer T1 extends Comparison_Interval)
+            ? Interval<T1["itemType"] extends "number" ? number : Date>
+            : never
+            : FieldDataType<T, k> extends v.Enum ? EnumValue<FieldDataType<T, k>>
+            : never;
         },
         FiledOptionalKey<T, keyof T>
     >
@@ -135,23 +135,23 @@ export type Query<T extends BuilderMeta> = Prettier<
 
 type ValibotEntries<T extends BuilderMeta> = {
     [k in keyof T]: FieldDataType<T, k> extends "string" ? v.StringSchema<undefined>
-        : FieldDataType<T, k> extends "number" ? v.NumberSchema<undefined>
-        : FieldDataType<T, k> extends "datetime" ? v.NumberSchema<undefined>
-        : FieldDataType<T, k> extends "boolean" ? v.BooleanSchema<undefined>
-        : FieldDataType<T, k> extends "array" ? v.ArraySchema<
-                T[k]["comparison"] extends (infer T1 extends Comparison_Array)
-                    ? T1["itemType"] extends "number" ? v.NumberSchema<undefined> : v.StringSchema<undefined>
-                    : never,
-                undefined
-            >
-        : FieldDataType<T, k> extends v.Enum ? v.EnumSchema<FieldDataType<T, k>, undefined>
-        : FieldDataType<T, k> extends "interval"
-            ? T[k]["comparison"] extends (infer T1 extends Comparison_Interval)
-                ? T1["itemType"] extends "number"
-                    ? v.ObjectSchema<{ start: v.NumberSchema<undefined>; end: v.NumberSchema<undefined> }, undefined>
-                : v.ObjectSchema<{ start: v.DateSchema<undefined>; end: v.DateSchema<undefined> }, undefined>
-            : never
-        : never;
+    : FieldDataType<T, k> extends "number" ? v.NumberSchema<undefined>
+    : FieldDataType<T, k> extends "datetime" ? v.NumberSchema<undefined>
+    : FieldDataType<T, k> extends "boolean" ? v.BooleanSchema<undefined>
+    : FieldDataType<T, k> extends "array" ? v.ArraySchema<
+        T[k]["comparison"] extends (infer T1 extends Comparison_Array)
+        ? T1["itemType"] extends "number" ? v.NumberSchema<undefined> : v.StringSchema<undefined>
+        : never,
+        undefined
+    >
+    : FieldDataType<T, k> extends v.Enum ? v.EnumSchema<FieldDataType<T, k>, undefined>
+    : FieldDataType<T, k> extends "interval"
+    ? T[k]["comparison"] extends (infer T1 extends Comparison_Interval)
+    ? T1["itemType"] extends "number"
+    ? v.ObjectSchema<{ start: v.NumberSchema<undefined>; end: v.NumberSchema<undefined> }, undefined>
+    : v.ObjectSchema<{ start: v.DateSchema<undefined>; end: v.DateSchema<undefined> }, undefined>
+    : never
+    : never;
 };
 
 type ApplyOptionalOnEntries<
@@ -285,6 +285,6 @@ export function dbQueryBuilderFactory<T extends BuilderMeta>(
             }
         }
 
-        return qb.where(sql.join(statements, sql.raw(" AND ")));
+        return statements.length ? qb.where(sql.join(statements, sql.raw(" AND "))) : qb;
     };
 }
